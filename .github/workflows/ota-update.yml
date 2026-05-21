@@ -55,24 +55,26 @@ jobs:
       - name: Publish MQTT OTA message
         run: |
           pip install paho-mqtt==1.6.1
-          python3 -c "import os, json, ssl, paho.mqtt.publish as publish; \
+          python3 -c "import os, json, ssl, socket, paho.mqtt.publish as publish; \
+          socket.setdefaulttimeout(15); \
           url = 'https://{bucket}.s3.{region}.amazonaws.com/{firmware}'.format( \
             bucket=os.getenv('S3_BUCKET_NAME'), \
             region=os.getenv('AWS_REGION'), \
             firmware=os.getenv('FIRMWARE_NAME') \
           ); \
           payload = json.dumps({ 'version': os.getenv('FIRMWARE_VERSION'), 'url': url }); \
+          tls_dict = { 'ca_certs': ssl.get_default_verify_paths().cafile, 'cert_reqs': ssl.CERT_NONE } if os.getenv('MQTT_TLS', 'false') == 'true' else None; \
           publish.single( \
             topic=os.getenv('DEVICE_TOPIC'), \
             payload=payload, \
             hostname=os.getenv('MQTT_SERVER'), \
-            port=int(os.getenv('MQTT_PORT')), \
+            port=int(os.getenv('MQTT_PORT', '8883')), \
             auth={ 'username': os.getenv('MQTT_USER'), 'password': os.getenv('MQTT_PASSWORD') } if os.getenv('MQTT_USER') else None, \
-            tls={'cert_reqs': ssl.CERT_NONE}  \
+            tls=tls_dict \
           ); \
-          print('✅ OTA message sent')"
+          print('✅ Mensaje OTA enviado con exito')"
         env:
-          DEVICE_TOPIC: dispositivo/device1/ota
+          DEVICE_TOPIC: colombia/valle/tulua/ESP32-80B54EC6A16/admin2/in
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
