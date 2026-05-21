@@ -72,7 +72,7 @@ jobs:
             auth={ 'username': os.getenv('MQTT_USER'), 'password': os.getenv('MQTT_PASSWORD') } if os.getenv('MQTT_USER') else None, \
             tls=tls_dict \
           ); \
-          print('✅ Mensaje OTA enviado con exito')"
+          print('Mensaje OTA enviado con exito')"
         env:
           DEVICE_TOPIC: colombia/valle/tulua/ESP32-80B54EC6A16/admin2/in
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
