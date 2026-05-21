@@ -54,7 +54,7 @@ jobs:
 
       - name: Publish MQTT OTA message
         run: |
-          pip install paho-mqtt==1.6.1
+          pip install paho-mqtt
           python3 -c "import os, json, ssl, paho.mqtt.publish as publish; \
           context = ssl.create_default_context(); \
           context.check_hostname = False; \
