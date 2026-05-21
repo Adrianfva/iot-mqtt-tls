@@ -54,7 +54,7 @@ jobs:
 
       - name: Publish MQTT OTA message
         run: |
-          pip install paho-mqtt==1.6.1
+          pip install paho-mqtt
           python3 -c "import os, json, ssl, socket, paho.mqtt.publish as publish; \
           socket.setdefaulttimeout(15); \
           url = 'https://{bucket}.s3.{region}.amazonaws.com/{firmware}'.format( \
