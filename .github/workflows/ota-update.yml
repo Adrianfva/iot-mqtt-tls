@@ -34,12 +34,12 @@ jobs:
           echo "$HOME/.platformio/penv/bin" >> $GITHUB_PATH
 
       - name: Run unit tests
-        run: pio run -e esp32dev
+        run: pio test -e native
 
-      - name: Generate coverage report
+      - name: Generate coverage  report
         run: |
           sudo apt-get install -y lcov --quiet
-          pio test -e esp32dev-coverage
+          pio test -e native-coverage
           bash scripts/coverage.sh
 
       - name: Upload coverage artifact
