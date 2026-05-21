@@ -26,7 +26,7 @@ jobs:
       - name: Set up PlatformIO
         run: pip install platformio
 
-      # ✅ Detectar versión desde tag o generar una versión dev
+      # Detectar versión desde tag o generar una versión dev
       - name: Set firmware version
         id: version
         run: |
