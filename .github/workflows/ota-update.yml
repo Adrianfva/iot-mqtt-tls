@@ -15,7 +15,7 @@ jobs:
   # ─── Job 1: Unit tests + cobertura ───────────────────────────────────────
   # Quality gate obligatorio. Bloquea todo lo demás si falla.
   unit-tests:
-    name: Unit Tests & Coverage (native)
+    name: Unit Tests & Coverage (esp32dev)
     runs-on: ubuntu-latest
 
     steps:
@@ -34,12 +34,12 @@ jobs:
           echo "$HOME/.platformio/penv/bin" >> $GITHUB_PATH
 
       - name: Run unit tests
-        run: pio test -e native
+        run: pio run -e esp32dev
 
       - name: Generate coverage  report
         run: |
           sudo apt-get install -y lcov --quiet
-          pio test -e native-coverage
+          pio test -e esp32dev-coverage
           bash scripts/coverage.sh
 
       - name: Upload coverage artifact
