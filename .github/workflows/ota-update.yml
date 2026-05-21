@@ -68,7 +68,7 @@ jobs:
             hostname=os.getenv('MQTT_SERVER'), \
             port=int(os.getenv('MQTT_PORT')), \
             auth={ 'username': os.getenv('MQTT_USER'), 'password': os.getenv('MQTT_PASSWORD') } if os.getenv('MQTT_USER') else None, \
-            tls={'cert_reqs': ssl.CERT_NONE} if os.getenv('MQTT_TLS', 'false') == 'true' else None \
+            tls={'cert_reqs': ssl.CERT_NONE}  \
           ); \
           print('✅ OTA message sent')"
         env:
