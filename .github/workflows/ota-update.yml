@@ -56,20 +56,16 @@ jobs:
         run: |
           pip install paho-mqtt==1.6.1
           python3 -c "import os, json, ssl, paho.mqtt.publish as publish; \
+          context = ssl.create_default_context(); \
+          context.check_hostname = False; \
+          context.verify_mode = ssl.CERT_NONE; \
           url = 'https://{bucket}.s3.{region}.amazonaws.com/{firmware}'.format( \
             bucket=os.getenv('S3_BUCKET_NAME'), \
             region=os.getenv('AWS_REGION'), \
             firmware=os.getenv('FIRMWARE_NAME') \
           ); \
           payload = json.dumps({ 'version': os.getenv('FIRMWARE_VERSION'), 'url': url }); \
-          \
-          tls_settings = None; \
-          if os.getenv('MQTT_TLS', 'false') == 'true': \
-              context = ssl.create_default_context(); \
-              context.check_hostname = False; \
-              context.verify_mode = ssl.CERT_NONE; \
-              tls_settings = {'ssl_context': context}; \
-          \
+          tls_settings = {'ssl_context': context} if os.getenv('MQTT_TLS', 'false') == 'true' else None; \
           publish.single( \
             topic=os.getenv('DEVICE_TOPIC'), \
             payload=payload, \
