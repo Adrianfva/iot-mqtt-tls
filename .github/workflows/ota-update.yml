@@ -39,7 +39,7 @@ jobs:
       - name: Generate coverage  report
         run: |
           sudo apt-get install -y lcov --quiet
-          run: pio run -e esp32dev
+          pio run -e esp32dev
           bash scripts/coverage.sh
 
       - name: Upload coverage artifact
